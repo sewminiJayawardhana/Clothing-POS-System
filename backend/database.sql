@@ -1,0 +1,38 @@
+CREATE DATABASE IF NOT EXISTS shans_pos;
+USE shans_pos;
+
+CREATE TABLE IF NOT EXISTS Products (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    product_code VARCHAR(100) UNIQUE NOT NULL,
+    name VARCHAR(255) NOT NULL,
+    category VARCHAR(100),
+    retail_price DECIMAL(10,2) NOT NULL,
+    wholesale_price DECIMAL(10,2) NOT NULL,
+    stock_qty INT DEFAULT 0
+);
+
+CREATE TABLE IF NOT EXISTS Suppliers (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    supplier_name VARCHAR(255) NOT NULL,
+    contact_person VARCHAR(255),
+    phone VARCHAR(50),
+    address TEXT
+);
+
+CREATE TABLE IF NOT EXISTS Sales (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    sale_type ENUM('Retail', 'Wholesale') NOT NULL,
+    total_amount DECIMAL(10,2) NOT NULL,
+    discount DECIMAL(10,2) DEFAULT 0,
+    timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS Sale_Items (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    sale_id INT NOT NULL,
+    product_id INT NOT NULL,
+    quantity INT NOT NULL,
+    unit_price DECIMAL(10,2) NOT NULL,
+    FOREIGN KEY (sale_id) REFERENCES Sales(id) ON DELETE CASCADE,
+    FOREIGN KEY (product_id) REFERENCES Products(id) ON DELETE RESTRICT
+);
