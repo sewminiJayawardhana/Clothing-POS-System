@@ -7,15 +7,10 @@ const Inventory = () => {
     const { products, fetchProducts } = useContext(AppContext);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [viewMode, setViewMode] = useState('cards'); // 'table' or 'cards'
-    const [searchTerm, setSearchTerm] = useState('');
-    
     // Product form
     const [pForm, setPForm] = useState({ product_code: '', name: '', category: '', price: '', image_url: '', stock_qty: '' });
 
-    const filteredProducts = products.filter(p => 
-        p.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
-        p.product_code.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+    const filteredProducts = products;
 
     const handleProductSubmit = async (e) => {
         e.preventDefault();
@@ -59,21 +54,11 @@ const Inventory = () => {
                 </div>
             </div>
 
-            {/* List Header with Search and ADD NEW */}
-            <div className="flex flex-col md:flex-row justify-between items-stretch md:items-center gap-4">
-                <div className="relative flex-grow max-w-md">
-                    <Search className="w-5 h-5 absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" />
-                    <input 
-                        type="text" 
-                        placeholder="Search products by name or SKU..." 
-                        className="w-full pl-11 pr-4 py-3 bg-white dark:bg-gray-900 dark:text-white border border-gray-200 dark:border-gray-800 rounded-xl text-sm focus:ring-2 focus:ring-blue-500 outline-none shadow-sm transition-all"
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                    />
-                </div>
+            {/* List Header with ADD NEW */}
+            <div className="flex justify-end pr-2">
                 <button 
                     onClick={() => setIsModalOpen(true)}
-                    className="flex items-center justify-center px-6 py-3 rounded-xl font-bold text-white shadow-lg bg-blue-600 hover:bg-blue-700 transform transition-all hover:scale-[1.02] active:scale-[0.98]"
+                    className="flex items-center justify-center px-10 py-3 rounded-2xl font-bold text-white shadow-xl shadow-blue-200 dark:shadow-blue-900/40 bg-blue-600 hover:bg-blue-700 transform transition-all hover:scale-[1.02] active:scale-[0.98]"
                 >
                     <Plus className="w-5 h-5 mr-2" />
                     Add New Product
