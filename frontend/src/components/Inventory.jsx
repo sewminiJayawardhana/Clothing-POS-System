@@ -141,9 +141,6 @@ const Inventory = () => {
                                         <span className="text-xs font-medium text-gray-400 dark:text-gray-500 mr-1 italic">Rs</span>
                                         {parseFloat(p.price).toLocaleString(undefined, { minimumFractionDigits: 2 })}
                                     </div>
-                                    <button className="p-2.5 bg-gray-50 dark:bg-gray-800 text-gray-400 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/30 rounded-xl transition-all border border-gray-100 dark:border-gray-700">
-                                        <Plus className="w-5 h-5" />
-                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -182,9 +179,37 @@ const Inventory = () => {
                                     <label className="text-xs font-bold text-gray-400 uppercase tracking-wider ml-1">Product Name</label>
                                     <input required type="text" placeholder="Description of the item" className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 dark:text-white border border-gray-200 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none transition-all font-bold" value={pForm.name} onChange={e => setPForm({...pForm, name: e.target.value})} />
                                 </div>
-                                <div className="space-y-1.5">
-                                    <label className="text-xs font-bold text-gray-400 uppercase tracking-wider ml-1">Image URL</label>
-                                    <input type="text" placeholder="https://example.com/image.jpg" className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 dark:text-white border border-gray-200 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none transition-all" value={pForm.image_url} onChange={e => setPForm({...pForm, image_url: e.target.value})} />
+                                <div className="space-y-2">
+                                    <label className="text-xs font-bold text-gray-400 uppercase tracking-wider ml-1">Upload Product Image</label>
+                                    <div className="flex items-center gap-4 p-4 bg-gray-50 dark:bg-gray-800 border-2 border-dashed border-gray-200 dark:border-gray-700 rounded-3xl transition-all hover:border-blue-500 group">
+                                        <div className="w-16 h-16 rounded-2xl bg-white dark:bg-gray-700 border border-gray-100 dark:border-gray-600 flex items-center justify-center overflow-hidden flex-shrink-0 shadow-sm">
+                                            {pForm.image_url ? (
+                                                <img src={pForm.image_url} alt="Preview" className="w-full h-full object-cover" />
+                                            ) : (
+                                                <Plus className="w-6 h-6 text-gray-300 dark:text-gray-500 group-hover:text-blue-500 transition-colors" />
+                                            )}
+                                        </div>
+                                        <div className="flex-1">
+                                            <input 
+                                                type="file" 
+                                                accept="image/*" 
+                                                className="hidden" 
+                                                id="p-image-upload" 
+                                                onChange={(e) => {
+                                                    const file = e.target.files[0];
+                                                    if (file) {
+                                                        const reader = new FileReader();
+                                                        reader.onloadend = () => setPForm({ ...pForm, image_url: reader.result });
+                                                        reader.readAsDataURL(file);
+                                                    }
+                                                }}
+                                            />
+                                            <label htmlFor="p-image-upload" className="block text-sm font-bold text-blue-600 dark:text-blue-400 cursor-pointer hover:underline">
+                                                {pForm.image_url ? 'Change Image' : 'Choose File'}
+                                            </label>
+                                            <p className="text-[10px] text-gray-500 dark:text-gray-400 mt-1">Accepts JPG, PNG. Max 5MB.</p>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                     <div className="space-y-1.5">

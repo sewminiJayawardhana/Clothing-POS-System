@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS Products (
     name VARCHAR(255) NOT NULL,
     category VARCHAR(100),
     price DECIMAL(10,2) NOT NULL,
-    image_url VARCHAR(255) DEFAULT NULL,
+    image_url LONGTEXT,
     stock_qty INT DEFAULT 0
 );
 
