@@ -140,38 +140,36 @@ const POS = () => {
         setHeldCarts(heldCarts.filter(c => c.id !== id));
     };
 
+    const defaultImage = "https://images.unsplash.com/photo-1553413077-190dd305871c?auto=format&fit=crop&q=80&w=400";
+
+    const filteredProducts = useMemo(() => {
+        if (!searchCode.trim()) return products;
+        return products.filter(p => 
+            p.name.toLowerCase().includes(searchCode.toLowerCase()) || 
+            p.product_code.toLowerCase().includes(searchCode.toLowerCase())
+        );
+    }, [products, searchCode]);
+
     return (
-        <div className="space-y-8">
-            {/* Held Carts Panel */}
+        <div className="flex flex-col gap-6">
+            {/* Held Transactions - Top Bar */}
             {heldCarts.length > 0 && (
-                <div className="bg-amber-50 dark:bg-amber-900/10 border border-amber-200 dark:border-amber-900/30 p-6 rounded-3xl shadow-sm">
+                <div className="bg-amber-50 dark:bg-amber-900/10 border border-amber-200 dark:border-amber-900/30 p-5 rounded-3xl animate-in slide-in-from-top-4 duration-300">
                     <div className="flex items-center gap-3 mb-4">
                         <History className="w-5 h-5 text-amber-600 dark:text-amber-400" />
-                        <h3 className="font-bold text-amber-800 dark:text-amber-300">Held Transactions ({heldCarts.length})</h3>
+                        <h3 className="font-bold text-amber-800 dark:text-amber-300 text-sm">Active Held Carts ({heldCarts.length})</h3>
                     </div>
-                    <div className="flex flex-wrap gap-4">
+                    <div className="flex gap-4 overflow-x-auto pb-2 custom-scrollbar">
                         {heldCarts.map(held => (
-                            <div key={held.id} className="bg-white dark:bg-gray-800 p-4 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 flex items-center gap-4 min-w-[280px]">
+                            <div key={held.id} className="bg-white dark:bg-gray-800 p-4 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 flex items-center gap-4 min-w-[280px] hover:shadow-md transition-all">
                                 <div className="flex-1">
-                                    <div className="text-xs font-bold text-gray-400 uppercase tracking-widest">{held.timestamp}</div>
+                                    <div className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">{held.timestamp}</div>
                                     <div className="text-lg font-black text-gray-900 dark:text-white">Rs {held.total.toFixed(2)}</div>
-                                    <div className="text-[10px] text-gray-500 font-medium">{held.items.length} item(s)</div>
+                                    <div className="text-xs text-gray-500 font-medium">{held.items.length} item(s)</div>
                                 </div>
                                 <div className="flex gap-2">
-                                    <button 
-                                        onClick={() => handleResumeCart(held)}
-                                        className="p-2.5 bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 hover:bg-blue-600 hover:text-white rounded-xl transition-all"
-                                        title="Resume"
-                                    >
-                                        <PlayCircle className="w-5 h-5" />
-                                    </button>
-                                    <button 
-                                        onClick={() => handleDeleteHeldCart(held.id)}
-                                        className="p-2.5 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 hover:bg-red-600 hover:text-white rounded-xl transition-all"
-                                        title="Discard"
-                                    >
-                                        <XCircle className="w-5 h-5" />
-                                    </button>
+                                    <button onClick={() => handleResumeCart(held)} className="p-2.5 bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 hover:bg-blue-600 hover:text-white rounded-xl transition-all"><PlayCircle className="w-5 h-5" /></button>
+                                    <button onClick={() => handleDeleteHeldCart(held.id)} className="p-2.5 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 hover:bg-red-600 hover:text-white rounded-xl transition-all"><XCircle className="w-5 h-5" /></button>
                                 </div>
                             </div>
                         ))}
@@ -179,189 +177,139 @@ const POS = () => {
                 </div>
             )}
 
-            <div className="pb-6 border-b border-gray-200 dark:border-gray-800">
-                <h2 className="text-3xl font-extrabold text-gray-900 dark:text-white tracking-tight">
-                    Sales Interface
-                </h2>
-                <p className="text-gray-500 dark:text-gray-400 mt-1 text-sm font-medium">Process customer orders efficiently.</p>
-            </div>
-
-            <div className="flex flex-col lg:flex-row gap-8">
-                {/* Left Column: Products Cart */}
-                <div className="flex-1 bg-white dark:bg-gray-900 p-8 rounded-3xl shadow-xl border border-gray-100 dark:border-gray-800 h-fit">
-                    <div className="flex justify-between items-center pb-6 border-b border-gray-50 dark:border-gray-800">
-                        <h3 className="text-lg font-bold text-gray-800 dark:text-gray-200">Shopping Cart</h3>
+            <div className="flex flex-col lg:grid lg:grid-cols-12 gap-8 items-start">
+                {/* LEFT: Product Browser (Grid) */}
+                <div className="lg:col-span-7 xl:col-span-8 space-y-6">
+                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white dark:bg-gray-900 p-6 rounded-3xl border border-gray-100 dark:border-gray-800 shadow-sm">
+                        <div className="relative flex-1 group">
+                            <Search className="w-5 h-5 absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-blue-500 transition-colors" />
+                            <input 
+                                type="text" 
+                                placeholder="Search products by identity..." 
+                                className="w-full pl-12 pr-4 py-3 bg-gray-50 dark:bg-gray-800 dark:text-white border border-transparent focus:border-blue-500 focus:bg-white dark:focus:bg-gray-800 rounded-2xl outline-none transition-all font-bold"
+                                value={searchCode}
+                                onChange={(e) => setSearchCode(e.target.value)}
+                            />
+                        </div>
                     </div>
 
-                    <form onSubmit={handleSearchSubmit} className="mt-8 flex flex-col relative">
-                        <div className="flex gap-3">
-                            <div className="relative flex-1">
-                                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                                    <Search className="h-5 w-5 text-gray-400" />
+                    <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 overflow-y-auto max-h-[calc(100vh-280px)] pr-2 custom-scrollbar">
+                        {filteredProducts.length === 0 ? (
+                            <div className="col-span-full py-20 text-center opacity-40 italic font-bold">No products matching your search criteria.</div>
+                        ) : filteredProducts.map(p => (
+                            <div 
+                                key={p.id} 
+                                onClick={() => addToCart(p)}
+                                className="bg-white dark:bg-gray-900 rounded-2xl overflow-hidden border border-gray-100 dark:border-gray-800 shadow-sm hover:shadow-xl hover:border-blue-200 dark:hover:border-blue-900/30 transition-all group cursor-pointer active:scale-95"
+                            >
+                                <div className="h-32 bg-gray-100 dark:bg-gray-800 relative overflow-hidden">
+                                    <img src={p.image_url || defaultImage} alt={p.name} className="w-full h-full object-cover transition-transform group-hover:scale-110" />
+                                    <div className="absolute top-3 right-3 bg-white/90 dark:bg-gray-800/90 backdrop-blur-md px-2 py-0.5 rounded-lg text-[8px] font-black tracking-widest uppercase text-blue-600 dark:text-blue-400">
+                                        {p.category || 'GEN'}
+                                    </div>
                                 </div>
-                                <input
-                                    type="text"
-                                    className="block w-full pl-11 pr-4 py-3 bg-gray-50 dark:bg-gray-800 dark:text-white border border-gray-200 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-blue-500 focus:bg-white dark:focus:bg-gray-800 outline-none transition-all font-medium"
-                                    placeholder="Live Search (Name or SKU)..."
-                                    value={searchCode}
-                                    onChange={handleSearchInput}
-                                    autoComplete="off"
-                                />
+                                <div className="p-4">
+                                    <h4 className="text-xs font-bold text-gray-900 dark:text-white line-clamp-1 mb-1">{p.name}</h4>
+                                    <div className="flex justify-between items-end">
+                                        <div className="text-sm font-black text-blue-600 dark:text-blue-400">Rs {parseFloat(p.price).toFixed(2)}</div>
+                                        <div className={`text-[8px] font-bold ${p.stock_qty < 10 ? 'text-red-500' : 'text-gray-400'}`}>{p.stock_qty} IN STOCK</div>
+                                    </div>
+                                </div>
                             </div>
-                            <button type="submit" className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl font-bold transition-all flex items-center shadow-lg shadow-blue-200 dark:shadow-blue-900/40">
-                                <Plus className="w-5 h-5 mr-1" /> Add
-                            </button>
-                        </div>
-
-                        {/* Search Results Dropdown */}
-                        {searchResults.length > 0 && (
-                            <div className="absolute top-14 left-0 right-0 z-[60] bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl shadow-2xl overflow-hidden mt-1 transform animate-in slide-in-from-top-2 duration-200">
-                                {searchResults.map(p => (
-                                    <button
-                                        key={p.id}
-                                        type="button"
-                                        onClick={() => handleSelectProduct(p)}
-                                        className="w-full flex items-center justify-between p-4 hover:bg-blue-50 dark:hover:bg-blue-900/30 text-left transition-colors border-b last:border-0 border-gray-100 dark:border-gray-700/50 group"
-                                    >
-                                        <div className="flex-1">
-                                            <div className="font-bold text-gray-900 dark:text-gray-100 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
-                                                {p.name}
-                                            </div>
-                                            <div className="text-xs font-mono text-gray-400 dark:text-gray-500 mt-0.5">
-                                                {p.product_code}
-                                            </div>
-                                        </div>
-                                        <div className="text-right">
-                                            <div className="font-black text-gray-900 dark:text-gray-100">
-                                                Rs {parseFloat(p.price).toFixed(2)}
-                                            </div>
-                                            <div className={`text-[10px] font-bold ${p.stock_qty < 10 ? 'text-red-500' : 'text-green-500'}`}>
-                                                {p.stock_qty} in stock
-                                            </div>
-                                        </div>
-                                    </button>
-                                ))}
-                            </div>
-                        )}
-                    </form>
-
-                    <div className="mt-8 overflow-auto max-h-[500px]">
-                        <table className="min-w-full divide-y divide-gray-100 dark:divide-gray-800">
-                            <thead className="bg-gray-50/50 dark:bg-gray-800/50">
-                                <tr>
-                                    <th className="px-4 py-4 text-left text-[10px] font-bold text-gray-400 uppercase tracking-widest">Item Name</th>
-                                    <th className="px-4 py-4 text-left text-[10px] font-bold text-gray-400 uppercase tracking-widest">Unit Price</th>
-                                    <th className="px-4 py-4 text-center text-[10px] font-bold text-gray-400 uppercase tracking-widest">Quantity</th>
-                                    <th className="px-4 py-4 text-right text-[10px] font-bold text-gray-400 uppercase tracking-widest">Subtotal</th>
-                                    <th className="px-4 py-4"></th>
-                                </tr>
-                            </thead>
-                            <tbody className="divide-y divide-gray-50 dark:divide-gray-800">
-                                {cart.length === 0 ? (
-                                    <tr>
-                                        <td colSpan="5" className="px-4 py-16 text-center text-gray-400 italic font-medium">Your cart is currently empty</td>
-                                    </tr>
-                                ) : cart.map((item, idx) => {
-                                    const price = parseFloat(item.price);
-                                    return (
-                                        <tr key={idx} className="hover:bg-blue-50/20 dark:hover:bg-blue-900/10 transition-colors group">
-                                            <td className="px-4 py-5 whitespace-nowrap">
-                                                <div className="font-bold text-gray-900 dark:text-gray-100">{item.name}</div>
-                                                <div className="text-[10px] font-mono text-blue-500 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/30 px-1.5 py-0.5 rounded inline-block mt-1">{item.product_code}</div>
-                                            </td>
-                                            <td className="px-4 py-5 whitespace-nowrap text-gray-700 dark:text-gray-300 font-semibold">Rs {price.toFixed(2)}</td>
-                                            <td className="px-4 py-5 whitespace-nowrap">
-                                                <div className="flex items-center justify-center space-x-3">
-                                                    <button onClick={() => updateQuantity(item.id, item.quantity - 1)} className="w-8 h-8 rounded-lg border border-gray-200 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 flex items-center justify-center font-bold text-gray-600 dark:text-gray-400 transition-colors shadow-sm">-</button>
-                                                    <span className="w-6 text-center font-bold dark:text-gray-200">{item.quantity}</span>
-                                                    <button onClick={() => updateQuantity(item.id, item.quantity + 1)} className="w-8 h-8 rounded-lg border border-gray-200 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 flex items-center justify-center font-bold text-gray-600 dark:text-gray-400 transition-colors shadow-sm">+</button>
-                                                </div>
-                                            </td>
-                                            <td className="px-4 py-5 whitespace-nowrap text-right font-bold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">Rs {(price * item.quantity).toFixed(2)}</td>
-                                            <td className="px-4 py-5 whitespace-nowrap text-center">
-                                                <button onClick={() => removeFromCart(item.id)} className="text-gray-300 dark:text-gray-600 hover:text-red-500 p-2 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/10 transition-all">
-                                                    <Trash2 className="w-5 h-5" />
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    );
-                                })}
-                            </tbody>
-                        </table>
+                        ))}
                     </div>
                 </div>
 
-                {/* Right Column: Order Summary */}
-                <div className="w-full lg:w-96 bg-white dark:bg-gray-900 dark:text-white p-8 rounded-3xl shadow-2xl flex flex-col h-fit border border-gray-100 dark:border-gray-800">
-                    <h3 className="text-xl font-bold mb-8 flex items-center text-gray-800 dark:text-white">
-                        <CreditCard className="w-6 h-6 mr-3 text-blue-600 dark:text-blue-400" />
-                        Order Summary
-                    </h3>
-
-                    <div className="space-y-6 mb-8 flex-1">
-                        <div className="flex justify-between text-gray-500 dark:text-gray-400 font-medium">
-                            <span>Gross Amount</span>
-                            <span className="text-gray-900 dark:text-gray-100 italic font-bold">Rs {totals.subtotal.toFixed(2)}</span>
-                        </div>
-
-                        <div className="pt-6 border-t border-gray-100 dark:border-gray-800">
-                            <label className="block text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-3">Apply Discount</label>
-                            <div className="flex gap-2">
-                                <select
-                                    className="bg-gray-50 dark:bg-gray-800 text-gray-800 dark:text-white rounded-xl px-3 py-2.5 border border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-blue-500 outline-none text-sm font-semibold cursor-pointer"
-                                    value={discountType}
-                                    onChange={(e) => setDiscountType(e.target.value)}
-                                >
-                                    <option value="none">None</option>
-                                    <option value="percentage">%</option>
-                                    <option value="fixed">Fixed</option>
-                                </select>
-                                <input
-                                    type="number"
-                                    className="flex-1 bg-gray-50 dark:bg-gray-800 text-gray-800 dark:text-white rounded-xl px-4 py-2.5 border border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-blue-500 outline-none font-bold placeholder-gray-400 disabled:opacity-30 disabled:cursor-not-allowed"
-                                    value={discountValue}
-                                    onChange={(e) => setDiscountValue(e.target.value)}
-                                    disabled={discountType === 'none'}
-                                    placeholder="0.00"
-                                />
-                            </div>
-                        </div>
-
-                        {totals.discountAmt > 0 && (
-                            <div className="flex justify-between text-green-600 dark:text-green-400 font-bold bg-green-50 dark:bg-green-400/10 p-3 rounded-xl border border-green-200 dark:border-green-400/20">
-                                <span>Discount Total</span>
-                                <span>- Rs {totals.discountAmt.toFixed(2)}</span>
-                            </div>
-                        )}
-                    </div>
-
-                    <div className="border-t border-gray-100 dark:border-gray-800 pt-6 pb-8">
-                        <div className="flex flex-col gap-1">
-                            <span className="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest">Net Payable Amount</span>
-                            <span className="text-4xl font-black text-gray-900 dark:text-white">
-                                <span className="text-sm font-medium text-blue-600 dark:text-blue-400 mr-2 italic font-mono">LKR</span>
-                                {totals.total.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                {/* RIGHT: Cart + Summary Sidebar */}
+                <div className="lg:col-span-5 xl:col-span-4 w-full sticky top-8">
+                    <div className="bg-white dark:bg-gray-900 rounded-3xl shadow-2xl border border-gray-100 dark:border-gray-800 overflow-hidden flex flex-col max-h-[calc(100vh-140px)]">
+                        <div className="p-6 border-b border-gray-50 dark:border-gray-800 flex justify-between items-center">
+                            <h3 className="font-bold text-gray-900 dark:text-white flex items-center">
+                                <CreditCard className="w-5 h-5 mr-3 text-blue-600" />
+                                Active Order
+                            </h3>
+                            <span className="bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 px-3 py-1 rounded-full text-[10px] font-black">
+                                {cart.length} ITEMS
                             </span>
                         </div>
-                    </div>
 
-                    <div className="space-y-3">
-                        <button onClick={handleCheckout} className="w-full flex justify-center items-center py-5 bg-blue-600 hover:bg-blue-700 text-white rounded-2xl font-black text-lg shadow-lg shadow-blue-200 dark:shadow-blue-900/30 transition-all transform hover:scale-[1.02] active:scale-[0.98]">
-                            <ShieldCheck className="w-6 h-6 mr-2" />
-                            PAY NOW
-                        </button>
-                        <div className="grid grid-cols-2 gap-3">
-                            <button 
-                                onClick={handleHoldCart}
-                                className="flex justify-center items-center py-4 bg-amber-50 dark:bg-amber-900/20 text-amber-600 dark:text-amber-400 hover:bg-amber-600 hover:text-white dark:hover:bg-amber-600 dark:hover:text-white rounded-2xl font-bold transition-all border border-amber-100 dark:border-amber-900/30"
-                            >
-                                <PauseCircle className="w-5 h-5 mr-2" />
-                                Hold
-                            </button>
-                            <button className="flex justify-center items-center py-4 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white rounded-2xl font-bold transition-all border border-gray-200 dark:border-gray-700">
-                                <Banknote className="w-5 h-5 mr-2" />
-                                Cash
-                            </button>
+                        {/* Cart Items List */}
+                        <div className="flex-1 overflow-y-auto p-6 space-y-4 custom-scrollbar">
+                            {cart.length === 0 ? (
+                                <div className="py-12 text-center opacity-30 italic text-sm font-bold">Select items from the browser to start an order.</div>
+                            ) : cart.map((item) => (
+                                <div key={item.id} className="flex gap-3 group">
+                                    <div className="w-12 h-12 rounded-xl bg-gray-50 dark:bg-gray-800 overflow-hidden flex-shrink-0">
+                                        <img src={item.image_url || defaultImage} alt="" className="w-full h-full object-cover" />
+                                    </div>
+                                    <div className="flex-1">
+                                        <div className="flex justify-between">
+                                            <h5 className="text-[11px] font-bold text-gray-900 dark:text-white truncate max-w-[120px]">{item.name}</h5>
+                                            <span className="text-[11px] font-black text-gray-900 dark:text-white leading-none">Rs {(item.price * item.quantity).toFixed(2)}</span>
+                                        </div>
+                                        <div className="flex justify-between items-center mt-2">
+                                            <div className="flex items-center gap-2">
+                                                <button onClick={() => updateQuantity(item.id, item.quantity - 1)} className="w-6 h-6 rounded-md border border-gray-200 dark:border-gray-700 font-bold text-xs hover:bg-gray-100 dark:hover:bg-gray-800 dark:text-white">-</button>
+                                                <span className="text-xs font-bold dark:text-white">{item.quantity}</span>
+                                                <button onClick={() => updateQuantity(item.id, item.quantity + 1)} className="w-6 h-6 rounded-md border border-gray-200 dark:border-gray-700 font-bold text-xs hover:bg-gray-100 dark:hover:bg-gray-800 dark:text-white">+</button>
+                                            </div>
+                                            <button onClick={() => removeFromCart(item.id)} className="text-gray-300 hover:text-red-500 transition-colors">
+                                                <Trash2 className="w-4 h-4" />
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+
+                        {/* Summary Footer */}
+                        <div className="p-6 bg-gray-50/80 dark:bg-gray-800/50 border-t border-gray-100 dark:border-gray-700 space-y-4">
+                            <div className="space-y-3">
+                                <div className="flex justify-between text-xs font-bold text-gray-500 dark:text-gray-400">
+                                    <span>Subtotal</span>
+                                    <span>Rs {totals.subtotal.toFixed(2)}</span>
+                                </div>
+                                
+                                <div className="flex gap-2">
+                                    <select
+                                        className="bg-white dark:bg-gray-800 text-[10px] font-black uppercase rounded-lg px-2 border border-transparent focus:border-blue-500 outline-none"
+                                        value={discountType}
+                                        onChange={(e) => setDiscountType(e.target.value)}
+                                    >
+                                        <option value="none">PROMO</option>
+                                        <option value="percentage">%</option>
+                                        <option value="fixed">VAL</option>
+                                    </select>
+                                    <input
+                                        type="number"
+                                        className="flex-1 bg-white dark:bg-gray-800 rounded-lg px-3 py-1.5 border border-transparent focus:border-blue-500 outline-none text-xs font-bold disabled:opacity-20"
+                                        value={discountValue}
+                                        onChange={(e) => setDiscountValue(e.target.value)}
+                                        disabled={discountType === 'none'}
+                                        placeholder="0.00"
+                                    />
+                                </div>
+                            </div>
+
+                            <div className="pt-4 border-t border-gray-200/50 dark:border-gray-700/50 flex justify-between items-end">
+                                <div>
+                                    <div className="text-[10px] font-black text-blue-600 dark:text-blue-400 uppercase tracking-widest mb-1 italic">Total Amount</div>
+                                    <div className="text-3xl font-black text-gray-900 dark:text-white tracking-tighter">
+                                        <span className="text-xs font-medium mr-1">Rs</span>
+                                        {totals.total.toLocaleString(undefined, { minimumFractionDigits: 2 })}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="grid grid-cols-4 gap-2 pt-2">
+                                <button onClick={handleHoldCart} className="col-span-1 p-3 bg-amber-100/50 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400 rounded-xl hover:bg-amber-600 hover:text-white transition-all flex items-center justify-center border border-amber-200/50">
+                                    <PauseCircle className="w-5 h-5" />
+                                </button>
+                                <button onClick={handleCheckout} className="col-span-3 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-black flex items-center justify-center shadow-lg shadow-blue-200 dark:shadow-none transition-all active:scale-95">
+                                    <ShieldCheck className="w-5 h-5 mr-2" />
+                                    CHECKOUT
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
