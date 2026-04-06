@@ -8,6 +8,19 @@ export const AppProvider = ({ children }) => {
     const [suppliers, setSuppliers] = useState([]);
     const [employees, setEmployees] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [isDarkMode, setIsDarkMode] = useState(() => {
+        return localStorage.getItem('theme') === 'dark';
+    });
+
+    useEffect(() => {
+        if (isDarkMode) {
+            document.documentElement.classList.add('dark');
+            localStorage.setItem('theme', 'dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+            localStorage.setItem('theme', 'light');
+        }
+    }, [isDarkMode]);
 
     const fetchProducts = async () => {
         setLoading(true);
@@ -55,7 +68,7 @@ export const AppProvider = ({ children }) => {
         <AppContext.Provider value={{ 
             products, suppliers, employees, 
             fetchProducts, fetchSuppliers, fetchEmployees, 
-            loading 
+            loading, isDarkMode, setIsDarkMode 
         }}>
             {children}
         </AppContext.Provider>

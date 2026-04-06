@@ -10,7 +10,7 @@ import Suppliers from './components/Suppliers';
 function App() {
   return (
     <Router>
-      <div className="min-h-screen bg-gray-50 flex">
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-950 flex transition-colors duration-300">
         {/* Fixed Sidebar */}
         <Sidebar />
         

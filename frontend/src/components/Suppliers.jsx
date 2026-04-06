@@ -33,11 +33,11 @@ const Suppliers = () => {
     return (
         <div className="space-y-6 max-w-7xl mx-auto px-4">
             {/* Header Section */}
-            <div className="pb-6 border-b border-gray-200">
-                <h2 className="text-3xl font-extrabold text-gray-900 tracking-tight">
+            <div className="pb-6 border-b border-gray-200 dark:border-gray-800">
+                <h2 className="text-3xl font-extrabold text-gray-900 dark:text-white tracking-tight">
                     Supplier Directory
                 </h2>
-                <p className="text-gray-500 mt-1 text-sm font-medium">Manage your product vendors and contact details.</p>
+                <p className="text-gray-500 dark:text-gray-400 mt-1 text-sm font-medium">Manage your product vendors and contact details.</p>
             </div>
 
             {/* Controls */}
@@ -47,7 +47,7 @@ const Suppliers = () => {
                     <input 
                         type="text" 
                         placeholder="Search by vendor name or contact person..." 
-                        className="w-full pl-11 pr-4 py-3 bg-white border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500 outline-none shadow-sm transition-all"
+                        className="w-full pl-11 pr-4 py-3 bg-white dark:bg-gray-900 dark:text-white border border-gray-200 dark:border-gray-800 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500 outline-none shadow-sm transition-all"
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                     />
@@ -62,46 +62,46 @@ const Suppliers = () => {
             </div>
 
             {/* List Table */}
-            <div className="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
+            <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-xl border border-gray-100 dark:border-gray-800 overflow-hidden">
                 <div className="overflow-x-auto">
-                    <table className="min-w-full divide-y divide-gray-200">
-                        <thead className="bg-gray-50/50">
+                    <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-800">
+                        <thead className="bg-gray-50/50 dark:bg-gray-800/50">
                             <tr>
                                 <th className="px-6 py-4 text-left text-[10px] font-bold text-gray-400 uppercase tracking-widest">Supplier Name</th>
                                 <th className="px-6 py-4 text-left text-[10px] font-bold text-gray-400 uppercase tracking-widest">Primary Contact</th>
                                 <th className="px-6 py-4 text-left text-[10px] font-bold text-gray-400 uppercase tracking-widest">Business Address</th>
                             </tr>
                         </thead>
-                        <tbody className="bg-white divide-y divide-gray-100">
+                        <tbody className="bg-white dark:bg-gray-900 divide-y divide-gray-100 dark:divide-gray-800">
                             {filteredSuppliers.length === 0 ? (
                                 <tr><td colSpan="3" className="px-6 py-12 text-center text-gray-500 italic font-medium">No vendors found matching your search.</td></tr>
                             ) : filteredSuppliers.map(s => (
-                                <tr key={s.id} className="hover:bg-indigo-50/30 transition-colors group">
+                                <tr key={s.id} className="hover:bg-indigo-50/30 dark:hover:bg-indigo-900/10 transition-colors group">
                                     <td className="px-6 py-5 whitespace-nowrap">
                                         <div className="flex items-center">
-                                            <div className="h-10 w-10 rounded-xl bg-indigo-100 text-indigo-600 flex items-center justify-center font-bold text-lg mr-3 shadow-inner">
+                                            <div className="h-10 w-10 rounded-xl bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 flex items-center justify-center font-bold text-lg mr-3 shadow-inner">
                                                 {s.supplier_name.charAt(0)}
                                             </div>
                                             <div>
-                                                <div className="font-bold text-gray-900 group-hover:text-indigo-600 transition-colors">{s.supplier_name}</div>
+                                                <div className="font-bold text-gray-900 dark:text-white group-hover:text-indigo-600 transition-colors">{s.supplier_name}</div>
                                                 <div className="text-[10px] text-gray-400 uppercase font-bold tracking-tight mt-0.5">Supplier ID: #S{s.id.toString().padStart(3, '0')}</div>
                                             </div>
                                         </div>
                                     </td>
                                     <td className="px-6 py-5">
                                         <div className="flex flex-col gap-1.5">
-                                            <div className="flex items-center text-gray-700 font-semibold">
+                                            <div className="flex items-center text-gray-700 dark:text-gray-300 font-semibold">
                                                 <User className="w-3.5 h-3.5 mr-2 text-indigo-400" />
                                                 <span>{s.contact_person}</span>
                                             </div>
-                                            <div className="flex items-center text-indigo-600 font-mono text-sm">
+                                            <div className="flex items-center text-indigo-600 dark:text-indigo-400 font-mono text-sm">
                                                 <Phone className="w-3.5 h-3.5 mr-2 text-indigo-300" />
                                                 <span>{s.phone || 'No phone'}</span>
                                             </div>
                                         </div>
                                     </td>
                                     <td className="px-6 py-5">
-                                        <div className="flex items-start text-gray-500 text-sm max-w-sm italic leading-relaxed">
+                                        <div className="flex items-start text-gray-500 dark:text-gray-400 text-sm max-w-sm italic leading-relaxed">
                                             <MapPin className="w-4 h-4 mr-2 text-gray-300 mt-0.5 flex-shrink-0" />
                                             <span>{s.address || 'No address registered for this vendor.'}</span>
                                         </div>
@@ -118,14 +118,14 @@ const Suppliers = () => {
                 <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
                     <div className="absolute inset-0 bg-gray-900/60 backdrop-blur-sm transition-opacity" onClick={() => setIsModalOpen(false)}></div>
                     
-                    <div className="relative bg-white w-full max-w-xl rounded-3xl shadow-2xl overflow-hidden transform animate-in fade-in zoom-in duration-200">
+                    <div className="relative bg-white dark:bg-gray-900 w-full max-w-xl rounded-3xl shadow-2xl overflow-hidden transform animate-in fade-in zoom-in duration-200">
                         <div className="h-2 w-full bg-indigo-600"></div>
-                        <div className="px-8 py-6 flex justify-between items-center border-b border-gray-100">
+                        <div className="px-8 py-6 flex justify-between items-center border-b border-gray-100 dark:border-gray-800">
                             <div>
-                                <h3 className="text-xl font-bold text-gray-900">Register New Supplier</h3>
-                                <p className="text-sm text-gray-500">Add a new product source to your directory.</p>
+                                <h3 className="text-xl font-bold text-gray-900 dark:text-white">Register New Supplier</h3>
+                                <p className="text-sm text-gray-500 dark:text-gray-400">Add a new product source to your directory.</p>
                             </div>
-                            <button onClick={() => setIsModalOpen(false)} className="p-2 hover:bg-gray-100 rounded-full text-gray-400 hover:text-gray-600 transition-colors">
+                            <button onClick={() => setIsModalOpen(false)} className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full text-gray-400 hover:text-gray-600 transition-colors">
                                 <X className="w-6 h-6" />
                             </button>
                         </div>
@@ -134,7 +134,7 @@ const Suppliers = () => {
                             <form onSubmit={handleSupplierSubmit} className="space-y-6">
                                 <div className="space-y-1.5">
                                     <label className="text-xs font-bold text-gray-400 uppercase tracking-wider ml-1">Supplier Business Name</label>
-                                    <input required type="text" placeholder="e.g. Acme Fabric Industries" className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:bg-white outline-none transition-all font-bold" 
+                                    <input required type="text" placeholder="e.g. Acme Fabric Industries" className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 dark:text-white border border-gray-200 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:bg-white dark:focus:bg-gray-800 outline-none transition-all font-bold" 
                                         value={sForm.supplier_name} onChange={e => setSForm({...sForm, supplier_name: e.target.value})} 
                                     />
                                 </div>
@@ -142,13 +142,13 @@ const Suppliers = () => {
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                                     <div className="space-y-1.5">
                                         <label className="text-xs font-bold text-gray-400 uppercase tracking-wider ml-1">Contact Person</label>
-                                        <input type="text" placeholder="e.g. Mark Stevens" className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none transition-all" 
+                                        <input type="text" placeholder="e.g. Mark Stevens" className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 dark:text-white border border-gray-200 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none transition-all" 
                                             value={sForm.contact_person} onChange={e => setSForm({...sForm, contact_person: e.target.value})} 
                                         />
                                     </div>
                                     <div className="space-y-1.5">
                                         <label className="text-xs font-bold text-gray-400 uppercase tracking-wider ml-1">Phone Number</label>
-                                        <input type="text" placeholder="+94 XX XXX XXX" className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none transition-all font-mono" 
+                                        <input type="text" placeholder="+94 XX XXX XXX" className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 dark:text-white border border-gray-200 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none transition-all font-mono" 
                                             value={sForm.phone} onChange={e => setSForm({...sForm, phone: e.target.value})} 
                                         />
                                     </div>
@@ -156,13 +156,13 @@ const Suppliers = () => {
 
                                 <div className="space-y-1.5">
                                     <label className="text-xs font-bold text-gray-400 uppercase tracking-wider ml-1">Business Address</label>
-                                    <textarea rows="3" placeholder="Enter full business location..." className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none transition-all" 
+                                    <textarea rows="3" placeholder="Enter full business location..." className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 dark:text-white border border-gray-200 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none transition-all" 
                                         value={sForm.address} onChange={e => setSForm({...sForm, address: e.target.value})} 
                                     ></textarea>
                                 </div>
 
                                 <div className="pt-6 flex gap-4">
-                                    <button type="button" onClick={() => setIsModalOpen(false)} className="flex-1 py-4 bg-gray-100 hover:bg-gray-200 text-gray-600 rounded-2xl font-bold transition-all transform active:scale-95">
+                                    <button type="button" onClick={() => setIsModalOpen(false)} className="flex-1 py-4 bg-gray-100 dark:bg-gray-800 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-600 rounded-2xl font-bold transition-all transform active:scale-95">
                                         Cancel
                                     </button>
                                     <button type="submit" className="flex-[2] py-4 bg-indigo-600 hover:bg-indigo-700 text-white rounded-2xl font-bold shadow-lg shadow-indigo-200 transition-all transform active:scale-95">

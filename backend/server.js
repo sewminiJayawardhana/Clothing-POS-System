@@ -39,11 +39,11 @@ app.get('/api/products/:code', async (req, res) => {
 });
 
 app.post('/api/products', async (req, res) => {
-    const { product_code, name, category, retail_price, wholesale_price, stock_qty } = req.body;
+    const { product_code, name, category, price, image_url, stock_qty } = req.body;
     try {
         const [result] = await db.query(
-            'INSERT INTO Products (product_code, name, category, retail_price, wholesale_price, stock_qty) VALUES (?, ?, ?, ?, ?, ?)',
-            [product_code, name, category, retail_price, wholesale_price, stock_qty || 0]
+            'INSERT INTO Products (product_code, name, category, price, image_url, stock_qty) VALUES (?, ?, ?, ?, ?, ?)',
+            [product_code, name, category, price, image_url, stock_qty || 0]
         );
         res.status(201).json({ id: result.insertId, ...req.body });
     } catch (err) {
@@ -53,11 +53,11 @@ app.post('/api/products', async (req, res) => {
 
 app.put('/api/products/:id', async (req, res) => {
     const { id } = req.params;
-    const { name, category, retail_price, wholesale_price, stock_qty } = req.body;
+    const { name, category, price, image_url, stock_qty } = req.body;
     try {
         await db.query(
-            'UPDATE Products SET name = ?, category = ?, retail_price = ?, wholesale_price = ?, stock_qty = ? WHERE id = ?',
-            [name, category, retail_price, wholesale_price, stock_qty, id]
+            'UPDATE Products SET name = ?, category = ?, price = ?, image_url = ?, stock_qty = ? WHERE id = ?',
+            [name, category, price, image_url, stock_qty, id]
         );
         res.json({ message: 'Product updated' });
     } catch (err) {
@@ -136,7 +136,7 @@ app.delete('/api/employees/:id', async (req, res) => {
 
 // Sales & Checkout routes
 app.post('/api/checkout', async (req, res) => {
-    const { sale_type, total_amount, discount, items } = req.body;
+    const { total_amount, discount, items } = req.body;
     
     // Ensure total_amount is calculated or handle it empty
     
@@ -144,10 +144,10 @@ app.post('/api/checkout', async (req, res) => {
     try {
         await connection.beginTransaction();
 
-        // 1. Insert into Sales
+        // 1. Insert into Sales (removed sale_type)
         const [saleResult] = await connection.query(
-            'INSERT INTO Sales (sale_type, total_amount, discount) VALUES (?, ?, ?)',
-            [sale_type, total_amount, discount || 0]
+            'INSERT INTO Sales (total_amount, discount) VALUES (?, ?)',
+            [total_amount, discount || 0]
         );
         const saleId = saleResult.insertId;
 

@@ -6,8 +6,8 @@ CREATE TABLE IF NOT EXISTS Products (
     product_code VARCHAR(100) UNIQUE NOT NULL,
     name VARCHAR(255) NOT NULL,
     category VARCHAR(100),
-    retail_price DECIMAL(10,2) NOT NULL,
-    wholesale_price DECIMAL(10,2) NOT NULL,
+    price DECIMAL(10,2) NOT NULL,
+    image_url VARCHAR(255) DEFAULT NULL,
     stock_qty INT DEFAULT 0
 );
 
@@ -21,7 +21,6 @@ CREATE TABLE IF NOT EXISTS Suppliers (
 
 CREATE TABLE IF NOT EXISTS Sales (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    sale_type ENUM('Retail', 'Wholesale') NOT NULL,
     total_amount DECIMAL(10,2) NOT NULL,
     discount DECIMAL(10,2) DEFAULT 0,
     timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
