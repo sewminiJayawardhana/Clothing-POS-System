@@ -41,13 +41,13 @@ const Inventory = () => {
                 <div className="flex bg-gray-100 dark:bg-gray-800 p-1 rounded-xl">
                     <button 
                         onClick={() => setViewMode('cards')}
-                        className={`px-4 py-2 rounded-lg text-xs font-bold transition-all ${viewMode === 'cards' ? 'bg-white dark:bg-gray-700 text-blue-600 shadow-sm' : 'text-gray-500'}`}
+                        className={`px-4 py-2 rounded-lg text-xs font-bold transition-all ${viewMode === 'cards' ? 'bg-white dark:bg-gray-700 text-emerald-600 shadow-sm' : 'text-gray-500'}`}
                     >
                         Card View
                     </button>
                     <button 
                         onClick={() => setViewMode('table')}
-                        className={`px-4 py-2 rounded-lg text-xs font-bold transition-all ${viewMode === 'table' ? 'bg-white dark:bg-gray-700 text-blue-600 shadow-sm' : 'text-gray-500'}`}
+                        className={`px-4 py-2 rounded-lg text-xs font-bold transition-all ${viewMode === 'table' ? 'bg-white dark:bg-gray-700 text-emerald-600 shadow-sm' : 'text-gray-500'}`}
                     >
                         Table View
                     </button>
@@ -58,7 +58,7 @@ const Inventory = () => {
             <div className="flex justify-end pr-2">
                 <button 
                     onClick={() => setIsModalOpen(true)}
-                    className="flex items-center justify-center px-10 py-3 rounded-2xl font-bold text-white shadow-xl shadow-blue-200 dark:shadow-blue-900/40 bg-blue-600 hover:bg-blue-700 transform transition-all hover:scale-[1.02] active:scale-[0.98]"
+                    className="flex items-center justify-center px-10 py-3 rounded-2xl font-bold text-white shadow-xl shadow-emerald-200 dark:shadow-emerald-900/40 bg-emerald-600 hover:bg-emerald-700 transform transition-all hover:scale-[1.02] active:scale-[0.98]"
                 >
                     <Plus className="w-5 h-5 mr-2" />
                     Add New Product
@@ -81,12 +81,12 @@ const Inventory = () => {
                                 {filteredProducts.length === 0 ? (
                                     <tr><td colSpan="4" className="px-6 py-12 text-center text-gray-500 italic font-medium">No products found.</td></tr>
                                 ) : filteredProducts.map(p => (
-                                    <tr key={p.id} className="hover:bg-blue-50/30 dark:hover:bg-blue-900/10 transition-colors group">
+                                    <tr key={p.id} className="hover:bg-emerald-50/30 dark:hover:bg-emerald-900/10 transition-colors group">
                                         <td className="px-6 py-5 whitespace-nowrap">
                                             <div className="flex items-center gap-4">
                                                 <img src={p.image_url || defaultImage} alt="" className="w-10 h-10 rounded-lg object-cover shadow-sm bg-gray-100" />
                                                 <div>
-                                                    <div className="font-bold text-gray-900 dark:text-gray-100 group-hover:text-blue-600 transition-colors">{p.name}</div>
+                                                    <div className="font-bold text-gray-900 dark:text-gray-100 group-hover:text-emerald-600 transition-colors">{p.name}</div>
                                                     <div className="text-[10px] font-mono text-gray-400 mt-0.5">{p.product_code}</div>
                                                 </div>
                                             </div>
@@ -124,7 +124,7 @@ const Inventory = () => {
                                     alt={p.name} 
                                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                                 />
-                                <div className="absolute top-4 right-4 bg-white/90 dark:bg-gray-800/90 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-bold text-blue-600 dark:text-blue-400 shadow-sm">
+                                <div className="absolute top-4 right-4 bg-white/90 dark:bg-gray-800/90 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-bold text-emerald-600 dark:text-emerald-400 shadow-sm">
                                     {p.category || 'General'}
                                 </div>
                             </div>
@@ -135,7 +135,7 @@ const Inventory = () => {
                                         {p.stock_qty} LEFT
                                     </span>
                                 </div>
-                                <h3 className="text-lg font-bold text-gray-900 dark:text-white group-hover:text-blue-600 transition-colors line-clamp-1">{p.name}</h3>
+                                <h3 className="text-lg font-bold text-gray-900 dark:text-white group-hover:text-emerald-600 transition-colors line-clamp-1">{p.name}</h3>
                                 <div className="mt-4 flex items-center justify-between">
                                     <div className="text-2xl font-black text-gray-900 dark:text-white leading-none">
                                         <span className="text-xs font-medium text-gray-400 dark:text-gray-500 mr-1 italic">Rs</span>
@@ -153,7 +153,7 @@ const Inventory = () => {
                 <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
                     <div className="absolute inset-0 bg-gray-900/60 backdrop-blur-sm transition-opacity" onClick={() => setIsModalOpen(false)}></div>
                     <div className="relative bg-white dark:bg-gray-900 w-full max-w-xl rounded-3xl shadow-2xl overflow-hidden transform animate-in fade-in zoom-in duration-200">
-                        <div className="h-2 w-full bg-blue-600"></div>
+                        <div className="h-2 w-full bg-emerald-600"></div>
                         <div className="px-8 py-6 flex justify-between items-center border-b border-gray-100 dark:border-gray-800">
                             <div>
                                 <h3 className="text-xl font-bold text-gray-900 dark:text-white">Create New Product</h3>
@@ -168,25 +168,25 @@ const Inventory = () => {
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                     <div className="space-y-1.5">
                                         <label className="text-xs font-bold text-gray-400 uppercase tracking-wider ml-1">SKU / Code</label>
-                                        <input required type="text" placeholder="SH-XXX" className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 dark:text-white border border-gray-200 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none transition-all font-mono" value={pForm.product_code} onChange={e => setPForm({...pForm, product_code: e.target.value})} />
+                                        <input required type="text" placeholder="SH-XXX" className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 dark:text-white border border-gray-200 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-emerald-500 outline-none transition-all font-mono" value={pForm.product_code} onChange={e => setPForm({...pForm, product_code: e.target.value})} />
                                     </div>
                                     <div className="space-y-1.5">
                                         <label className="text-xs font-bold text-gray-400 uppercase tracking-wider ml-1">Category</label>
-                                        <input type="text" placeholder="General" className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 dark:text-white border border-gray-200 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none transition-all" value={pForm.category} onChange={e => setPForm({...pForm, category: e.target.value})} />
+                                        <input type="text" placeholder="General" className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 dark:text-white border border-gray-200 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-emerald-500 outline-none transition-all" value={pForm.category} onChange={e => setPForm({...pForm, category: e.target.value})} />
                                     </div>
                                 </div>
                                 <div className="space-y-1.5">
                                     <label className="text-xs font-bold text-gray-400 uppercase tracking-wider ml-1">Product Name</label>
-                                    <input required type="text" placeholder="Description of the item" className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 dark:text-white border border-gray-200 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none transition-all font-bold" value={pForm.name} onChange={e => setPForm({...pForm, name: e.target.value})} />
+                                    <input required type="text" placeholder="Description of the item" className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 dark:text-white border border-gray-200 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-emerald-500 outline-none transition-all font-bold" value={pForm.name} onChange={e => setPForm({...pForm, name: e.target.value})} />
                                 </div>
                                 <div className="space-y-2">
                                     <label className="text-xs font-bold text-gray-400 uppercase tracking-wider ml-1">Upload Product Image</label>
-                                    <div className="flex items-center gap-4 p-4 bg-gray-50 dark:bg-gray-800 border-2 border-dashed border-gray-200 dark:border-gray-700 rounded-3xl transition-all hover:border-blue-500 group">
+                                    <div className="flex items-center gap-4 p-4 bg-gray-50 dark:bg-gray-800 border-2 border-dashed border-gray-200 dark:border-gray-700 rounded-3xl transition-all hover:border-emerald-500 group">
                                         <div className="w-16 h-16 rounded-2xl bg-white dark:bg-gray-700 border border-gray-100 dark:border-gray-600 flex items-center justify-center overflow-hidden flex-shrink-0 shadow-sm">
                                             {pForm.image_url ? (
                                                 <img src={pForm.image_url} alt="Preview" className="w-full h-full object-cover" />
                                             ) : (
-                                                <Plus className="w-6 h-6 text-gray-300 dark:text-gray-500 group-hover:text-blue-500 transition-colors" />
+                                                <Plus className="w-6 h-6 text-gray-300 dark:text-gray-500 group-hover:text-emerald-500 transition-colors" />
                                             )}
                                         </div>
                                         <div className="flex-1">
@@ -204,7 +204,7 @@ const Inventory = () => {
                                                     }
                                                 }}
                                             />
-                                            <label htmlFor="p-image-upload" className="block text-sm font-bold text-blue-600 dark:text-blue-400 cursor-pointer hover:underline">
+                                            <label htmlFor="p-image-upload" className="block text-sm font-bold text-emerald-600 dark:text-emerald-400 cursor-pointer hover:underline">
                                                 {pForm.image_url ? 'Change Image' : 'Choose File'}
                                             </label>
                                             <p className="text-[10px] text-gray-500 dark:text-gray-400 mt-1">Accepts JPG, PNG. Max 5MB.</p>
@@ -214,16 +214,16 @@ const Inventory = () => {
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                     <div className="space-y-1.5">
                                         <label className="text-xs font-bold text-gray-400 uppercase tracking-wider ml-1">Price (LKR)</label>
-                                        <input required type="number" step="0.01" className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 dark:text-white border border-gray-200 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none font-bold" value={pForm.price} onChange={e => setPForm({...pForm, price: e.target.value})} />
+                                        <input required type="number" step="0.01" className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 dark:text-white border border-gray-200 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-emerald-500 outline-none font-bold" value={pForm.price} onChange={e => setPForm({...pForm, price: e.target.value})} />
                                     </div>
                                     <div className="space-y-1.5">
                                         <label className="text-xs font-bold text-gray-400 uppercase tracking-wider ml-1">Initial Stock</label>
-                                        <input required type="number" className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 dark:text-white border border-gray-200 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none" value={pForm.stock_qty} onChange={e => setPForm({...pForm, stock_qty: e.target.value})} />
+                                        <input required type="number" className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 dark:text-white border border-gray-200 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-emerald-500 outline-none" value={pForm.stock_qty} onChange={e => setPForm({...pForm, stock_qty: e.target.value})} />
                                     </div>
                                 </div>
                                 <div className="pt-6 flex gap-4">
                                     <button type="button" onClick={() => setIsModalOpen(false)} className="flex-1 py-4 bg-gray-100 dark:bg-gray-800 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-600 rounded-2xl font-bold transition-all transform active:scale-95">Cancel</button>
-                                    <button type="submit" className="flex-[2] py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-2xl font-bold shadow-lg transition-all transform active:scale-95">Save Product</button>
+                                    <button type="submit" className="flex-[2] py-4 bg-emerald-600 hover:bg-emerald-700 text-white rounded-2xl font-bold shadow-lg transition-all transform active:scale-95">Save Product</button>
                                 </div>
                             </form>
                         </div>

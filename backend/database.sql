@@ -13,9 +13,11 @@ CREATE TABLE IF NOT EXISTS Products (
 
 CREATE TABLE IF NOT EXISTS Suppliers (
     id INT AUTO_INCREMENT PRIMARY KEY,
+    supplier_name VARCHAR(255) NOT NULL,
     contact_person VARCHAR(255),
     phone VARCHAR(50),
-    address TEXT
+    address TEXT,
+    supplied_products TEXT
 );
 
 CREATE TABLE IF NOT EXISTS Sales (

@@ -77,11 +77,11 @@ app.get('/api/suppliers', async (req, res) => {
 });
 
 app.post('/api/suppliers', async (req, res) => {
-    const { supplier_name, contact_person, phone, address } = req.body;
+    const { supplier_name, contact_person, phone, address, supplied_products } = req.body;
     try {
         const [result] = await db.query(
-            'INSERT INTO Suppliers (supplier_name, contact_person, phone, address) VALUES (?, ?, ?, ?)',
-            [supplier_name, contact_person, phone, address]
+            'INSERT INTO Suppliers (supplier_name, contact_person, phone, address, supplied_products) VALUES (?, ?, ?, ?, ?)',
+            [supplier_name, contact_person, phone, address, supplied_products]
         );
         res.status(201).json({ id: result.insertId, ...req.body });
     } catch (err) {

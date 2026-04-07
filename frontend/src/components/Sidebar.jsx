@@ -19,7 +19,7 @@ const Sidebar = () => {
         <aside className="fixed inset-y-0 left-0 w-64 bg-white dark:bg-gray-900 text-gray-800 dark:text-white shadow-2xl flex flex-col z-50 border-r border-gray-100 dark:border-gray-800 transition-colors duration-300">
             {/* Logo Area */}
             <div className="p-6">
-                <Link to="/" className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-400 dark:to-indigo-400 bg-clip-text text-transparent">
+                <Link to="/" className="text-2xl font-bold bg-gradient-to-r from-emerald-600 to-indigo-600 dark:from-emerald-400 dark:to-indigo-400 bg-clip-text text-transparent">
                     Shan Clothing
                 </Link>
                 <p className="text-[10px] text-gray-400 dark:text-gray-500 font-bold uppercase tracking-[0.2em] mt-1">POS & Inventory v1.0</p>
@@ -36,8 +36,8 @@ const Sidebar = () => {
                             to={item.path}
                             className={`flex items-center px-4 py-3 rounded-xl transition-all duration-200 group ${
                                 isActive 
-                                ? 'bg-blue-600 text-white shadow-lg shadow-blue-900/20' 
-                                : 'text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-gray-100'
+                                ? 'bg-emerald-600 text-white shadow-lg shadow-emerald-900/20' 
+                                : 'text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-emerald-600 dark:hover:text-gray-100'
                             }`}
                         >
                             <Icon className={`w-5 h-5 mr-3 transition-transform duration-200 ${isActive ? 'scale-110' : 'group-hover:scale-110'}`} />
@@ -54,7 +54,7 @@ const Sidebar = () => {
             <div className="p-4 border-t border-gray-100 dark:border-gray-800 space-y-2">
                 <button 
                     onClick={() => setIsDarkMode(!isDarkMode)}
-                    className="flex items-center w-full px-4 py-3 text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-400/10 rounded-xl transition-all"
+                    className="flex items-center w-full px-4 py-3 text-gray-500 dark:text-gray-400 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-400/10 rounded-xl transition-all"
                 >
                     {isDarkMode ? (
                         <>

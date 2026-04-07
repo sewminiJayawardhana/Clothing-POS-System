@@ -168,7 +168,7 @@ const POS = () => {
                                     <div className="text-xs text-gray-500 font-medium">{held.items.length} item(s)</div>
                                 </div>
                                 <div className="flex gap-2">
-                                    <button onClick={() => handleResumeCart(held)} className="p-2.5 bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 hover:bg-blue-600 hover:text-white rounded-xl transition-all"><PlayCircle className="w-5 h-5" /></button>
+                                    <button onClick={() => handleResumeCart(held)} className="p-2.5 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400 hover:bg-emerald-600 hover:text-white rounded-xl transition-all"><PlayCircle className="w-5 h-5" /></button>
                                     <button onClick={() => handleDeleteHeldCart(held.id)} className="p-2.5 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 hover:bg-red-600 hover:text-white rounded-xl transition-all"><XCircle className="w-5 h-5" /></button>
                                 </div>
                             </div>
@@ -182,11 +182,11 @@ const POS = () => {
                 <div className="lg:col-span-7 xl:col-span-8 space-y-6">
                     <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white dark:bg-gray-900 p-6 rounded-3xl border border-gray-100 dark:border-gray-800 shadow-sm">
                         <div className="relative flex-1 group">
-                            <Search className="w-5 h-5 absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-blue-500 transition-colors" />
+                            <Search className="w-5 h-5 absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-emerald-500 transition-colors" />
                             <input 
                                 type="text" 
                                 placeholder="Search products by identity..." 
-                                className="w-full pl-12 pr-4 py-3 bg-gray-50 dark:bg-gray-800 dark:text-white border border-transparent focus:border-blue-500 focus:bg-white dark:focus:bg-gray-800 rounded-2xl outline-none transition-all font-bold"
+                                className="w-full pl-12 pr-4 py-3 bg-gray-50 dark:bg-gray-800 dark:text-white border border-transparent focus:border-emerald-500 focus:bg-white dark:focus:bg-gray-800 rounded-2xl outline-none transition-all font-bold"
                                 value={searchCode}
                                 onChange={(e) => setSearchCode(e.target.value)}
                             />
@@ -200,18 +200,18 @@ const POS = () => {
                             <div 
                                 key={p.id} 
                                 onClick={() => addToCart(p)}
-                                className="bg-white dark:bg-gray-900 rounded-2xl overflow-hidden border border-gray-100 dark:border-gray-800 shadow-sm hover:shadow-xl hover:border-blue-200 dark:hover:border-blue-900/30 transition-all group cursor-pointer active:scale-95"
+                                className="bg-white dark:bg-gray-900 rounded-2xl overflow-hidden border border-gray-100 dark:border-gray-800 shadow-sm hover:shadow-xl hover:border-emerald-200 dark:hover:border-emerald-900/30 transition-all group cursor-pointer active:scale-95"
                             >
                                 <div className="h-32 bg-gray-100 dark:bg-gray-800 relative overflow-hidden">
                                     <img src={p.image_url || defaultImage} alt={p.name} className="w-full h-full object-cover transition-transform group-hover:scale-110" />
-                                    <div className="absolute top-3 right-3 bg-white/90 dark:bg-gray-800/90 backdrop-blur-md px-2 py-0.5 rounded-lg text-[8px] font-black tracking-widest uppercase text-blue-600 dark:text-blue-400">
+                                    <div className="absolute top-3 right-3 bg-white/90 dark:bg-gray-800/90 backdrop-blur-md px-2 py-0.5 rounded-lg text-[8px] font-black tracking-widest uppercase text-emerald-600 dark:text-emerald-400">
                                         {p.category || 'GEN'}
                                     </div>
                                 </div>
                                 <div className="p-4">
                                     <h4 className="text-xs font-bold text-gray-900 dark:text-white line-clamp-1 mb-1">{p.name}</h4>
                                     <div className="flex justify-between items-end">
-                                        <div className="text-sm font-black text-blue-600 dark:text-blue-400">Rs {parseFloat(p.price).toFixed(2)}</div>
+                                        <div className="text-sm font-black text-emerald-600 dark:text-emerald-400">Rs {parseFloat(p.price).toFixed(2)}</div>
                                         <div className={`text-[8px] font-bold ${p.stock_qty < 10 ? 'text-red-500' : 'text-gray-400'}`}>{p.stock_qty} IN STOCK</div>
                                     </div>
                                 </div>
@@ -225,10 +225,10 @@ const POS = () => {
                     <div className="bg-white dark:bg-gray-900 rounded-3xl shadow-2xl border border-gray-100 dark:border-gray-800 overflow-hidden flex flex-col max-h-[calc(100vh-140px)]">
                         <div className="p-6 border-b border-gray-50 dark:border-gray-800 flex justify-between items-center">
                             <h3 className="font-bold text-gray-900 dark:text-white flex items-center">
-                                <CreditCard className="w-5 h-5 mr-3 text-blue-600" />
+                                <CreditCard className="w-5 h-5 mr-3 text-emerald-600" />
                                 Active Order
                             </h3>
-                            <span className="bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 px-3 py-1 rounded-full text-[10px] font-black">
+                            <span className="bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 px-3 py-1 rounded-full text-[10px] font-black">
                                 {cart.length} ITEMS
                             </span>
                         </div>
@@ -236,7 +236,9 @@ const POS = () => {
                         {/* Cart Items List */}
                         <div className="flex-1 overflow-y-auto p-6 space-y-4 custom-scrollbar">
                             {cart.length === 0 ? (
-                                <div className="py-12 text-center opacity-30 italic text-sm font-bold">Select items from the browser to start an order.</div>
+                                <div className="py-12 text-center text-gray-400 dark:text-gray-500 italic text-sm font-bold opacity-60">
+                                    Select items from the browser to start an order.
+                                </div>
                             ) : cart.map((item) => (
                                 <div key={item.id} className="flex gap-3 group">
                                     <div className="w-12 h-12 rounded-xl bg-gray-50 dark:bg-gray-800 overflow-hidden flex-shrink-0">
@@ -272,7 +274,7 @@ const POS = () => {
                                 
                                 <div className="flex gap-2">
                                     <select
-                                        className="bg-white dark:bg-gray-800 text-[10px] font-black uppercase rounded-lg px-2 border border-transparent focus:border-blue-500 outline-none"
+                                        className="bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-[10px] font-black uppercase rounded-xl px-3 border border-gray-100 dark:border-gray-700 focus:border-emerald-500 outline-none transition-all cursor-pointer shadow-sm"
                                         value={discountType}
                                         onChange={(e) => setDiscountType(e.target.value)}
                                     >
@@ -282,7 +284,7 @@ const POS = () => {
                                     </select>
                                     <input
                                         type="number"
-                                        className="flex-1 bg-white dark:bg-gray-800 rounded-lg px-3 py-1.5 border border-transparent focus:border-blue-500 outline-none text-xs font-bold disabled:opacity-20"
+                                        className="flex-1 bg-white dark:bg-gray-800 text-gray-900 dark:text-white rounded-xl px-4 py-2 border border-gray-100 dark:border-gray-700 focus:border-emerald-500 outline-none text-xs font-bold disabled:opacity-30 disabled:cursor-not-allowed transition-all shadow-sm placeholder-gray-400"
                                         value={discountValue}
                                         onChange={(e) => setDiscountValue(e.target.value)}
                                         disabled={discountType === 'none'}
@@ -293,7 +295,7 @@ const POS = () => {
 
                             <div className="pt-4 border-t border-gray-200/50 dark:border-gray-700/50 flex justify-between items-end">
                                 <div>
-                                    <div className="text-[10px] font-black text-blue-600 dark:text-blue-400 uppercase tracking-widest mb-1 italic">Total Amount</div>
+                                    <div className="text-[10px] font-black text-emerald-600 dark:text-emerald-400 uppercase tracking-widest mb-1 italic">Total Amount</div>
                                     <div className="text-3xl font-black text-gray-900 dark:text-white tracking-tighter">
                                         <span className="text-xs font-medium mr-1">Rs</span>
                                         {totals.total.toLocaleString(undefined, { minimumFractionDigits: 2 })}
@@ -305,7 +307,7 @@ const POS = () => {
                                 <button onClick={handleHoldCart} className="col-span-1 p-3 bg-amber-100/50 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400 rounded-xl hover:bg-amber-600 hover:text-white transition-all flex items-center justify-center border border-amber-200/50">
                                     <PauseCircle className="w-5 h-5" />
                                 </button>
-                                <button onClick={handleCheckout} className="col-span-3 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-black flex items-center justify-center shadow-lg shadow-blue-200 dark:shadow-none transition-all active:scale-95">
+                                <button onClick={handleCheckout} className="col-span-3 py-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-black flex items-center justify-center shadow-lg shadow-emerald-200 dark:shadow-none transition-all active:scale-95">
                                     <ShieldCheck className="w-5 h-5 mr-2" />
                                     CHECKOUT
                                 </button>
