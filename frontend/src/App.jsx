@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Toaster } from 'react-hot-toast';
 import Sidebar from './components/Sidebar';
 import POS from './components/POS';
 import Inventory from './components/Inventory';
@@ -11,6 +12,25 @@ function App() {
   return (
     <Router>
       <div className="min-h-screen bg-gray-50 dark:bg-gray-950 flex transition-colors duration-300">
+        <Toaster 
+          position="top-right" 
+          toastOptions={{
+            className: 'dark:bg-gray-800 dark:text-white font-semibold shadow-2xl rounded-2xl border border-gray-100 dark:border-gray-700',
+            duration: 3000,
+            success: {
+              iconTheme: {
+                primary: '#10b981',
+                secondary: '#fff',
+              },
+            },
+            error: {
+              iconTheme: {
+                primary: '#ef4444',
+                secondary: '#fff',
+              },
+            },
+          }} 
+        />
         {/* Fixed Sidebar */}
         <Sidebar />
         

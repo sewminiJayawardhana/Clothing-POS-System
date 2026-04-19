@@ -2,6 +2,7 @@ import React, { useState, useContext } from 'react';
 import { AppContext } from '../context/AppContext';
 import axios from 'axios';
 import { Truck, Search, Plus, X, Phone, User, MapPin } from 'lucide-react';
+import toast from 'react-hot-toast';
 
 const Suppliers = () => {
     const { suppliers, products, fetchSuppliers } = useContext(AppContext);
@@ -15,13 +16,13 @@ const Suppliers = () => {
         e.preventDefault();
         try {
             await axios.post('http://localhost:5000/api/suppliers', sForm);
-            alert('Supplier added successfully!');
+            toast.success('Supplier added successfully!');
             setSForm({ supplier_name: '', contact_person: '', phone: '', address: '', supplied_products: '' });
             fetchSuppliers();
             setIsModalOpen(false);
         } catch (err) {
             console.error(err);
-            alert('Failed to add supplier');
+            toast.error('Failed to add supplier');
         }
     };
 

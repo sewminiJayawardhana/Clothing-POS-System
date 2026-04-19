@@ -2,6 +2,7 @@ import React, { useState, useContext } from 'react';
 import { AppContext } from '../context/AppContext';
 import axios from 'axios';
 import { Users, Search, Plus, X, UserPlus, Phone, Mail, ShieldCheck, Trash2 } from 'lucide-react';
+import toast from 'react-hot-toast';
 
 const Employees = () => {
     const { employees, fetchEmployees } = useContext(AppContext);
@@ -15,24 +16,47 @@ const Employees = () => {
         e.preventDefault();
         try {
             await axios.post('http://localhost:5000/api/employees', form);
-            alert('Employee added successfully!');
+            toast.success('Employee added successfully!');
             setForm({ name: '', email: '', role: '', phone: '', status: 'Active' });
             fetchEmployees();
             setIsModalOpen(false);
         } catch (err) {
             console.error(err);
-            alert('Failed to add employee');
+            toast.error('Failed to add employee');
         }
     };
 
-    const handleDelete = async (id) => {
-        if (!confirm('Are you sure you want to remove this employee?')) return;
+    const executeDelete = async (id, tId) => {
+        toast.dismiss(tId);
         try {
             await axios.delete(`http://localhost:5000/api/employees/${id}`);
+            toast.success('Employee removed successfully!');
             fetchEmployees();
         } catch (err) {
-            alert('Failed to delete');
+            toast.error('Failed to delete employee');
         }
+    };
+
+    const handleDelete = (id) => {
+        toast((t) => (
+            <div className="flex flex-col gap-3">
+                <p className="text-gray-900 dark:text-white font-semibold">Are you sure you want to remove this employee?</p>
+                <div className="flex flex-wrap gap-2 justify-end mt-1">
+                    <button 
+                        onClick={() => toast.dismiss(t.id)} 
+                        className="px-4 py-2 bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 rounded-lg text-sm font-bold transition-colors"
+                    >
+                        Cancel
+                    </button>
+                    <button 
+                        onClick={() => executeDelete(id, t.id)} 
+                        className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg text-sm font-bold transition-colors shadow-sm"
+                    >
+                        Yes, Remove
+                    </button>
+                </div>
+            </div>
+        ), { duration: Infinity, id: `deleteConfirm-${id}` });
     };
 
     const filteredEmployees = employees.filter(emp =>

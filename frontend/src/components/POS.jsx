@@ -2,6 +2,7 @@ import React, { useState, useContext, useMemo, useEffect } from 'react';
 import { AppContext } from '../context/AppContext';
 import axios from 'axios';
 import { Search, Plus, Trash2, CreditCard, Banknote, ShieldCheck, PauseCircle, PlayCircle, History, XCircle } from 'lucide-react';
+import toast from 'react-hot-toast';
 
 const POS = () => {
     const { products, fetchProducts } = useContext(AppContext);
@@ -86,7 +87,7 @@ const POS = () => {
     }, [cart, discountType, discountValue]);
 
     const handleCheckout = async () => {
-        if (cart.length === 0) return alert('Cart is empty!');
+        if (cart.length === 0) return toast.error('Cart is empty!');
 
         const payload = {
             total_amount: totals.total,
@@ -100,18 +101,18 @@ const POS = () => {
 
         try {
             await axios.post('http://localhost:5000/api/checkout', payload);
-            alert('Checkout successful!');
+            toast.success('Checkout successful!');
             setCart([]);
             setDiscountValue(0);
             fetchProducts(); // Refresh stock
         } catch (err) {
             console.error(err);
-            alert('Checkout failed!');
+            toast.error('Checkout failed!');
         }
     };
 
     const handleHoldCart = () => {
-        if (cart.length === 0) return alert('Cart is empty!');
+        if (cart.length === 0) return toast.error('Cart is empty!');
         const newHold = {
             id: Date.now(),
             items: cart,
@@ -126,14 +127,38 @@ const POS = () => {
         setDiscountType('none');
     };
 
-    const handleResumeCart = (held) => {
-        if (cart.length > 0) {
-            if (!window.confirm('Replace current cart with held active cart?')) return;
-        }
+    const performResume = (held, tId) => {
+        if (tId) toast.dismiss(tId);
         setCart(held.items);
         setDiscountType(held.discountType);
         setDiscountValue(held.discountValue);
         setHeldCarts(heldCarts.filter(c => c.id !== held.id));
+    };
+
+    const handleResumeCart = (held) => {
+        if (cart.length > 0) {
+            toast((t) => (
+                <div className="flex flex-col gap-3">
+                    <p className="text-gray-900 dark:text-white font-semibold">Replace current cart with held active cart?</p>
+                    <div className="flex flex-wrap gap-2 justify-end mt-1">
+                        <button 
+                            onClick={() => toast.dismiss(t.id)} 
+                            className="px-4 py-2 bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 rounded-lg text-sm font-bold transition-colors"
+                        >
+                            Cancel
+                        </button>
+                        <button 
+                            onClick={() => performResume(held, t.id)} 
+                            className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-sm font-bold transition-colors shadow-sm"
+                        >
+                            Yes, Replace
+                        </button>
+                    </div>
+                </div>
+            ), { duration: Infinity, id: `resumeConfirm-${held.id}` });
+            return;
+        }
+        performResume(held);
     };
 
     const handleDeleteHeldCart = (id) => {

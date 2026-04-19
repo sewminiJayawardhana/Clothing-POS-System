@@ -2,6 +2,7 @@ import React, { useState, useContext } from 'react';
 import { AppContext } from '../context/AppContext';
 import axios from 'axios';
 import { Package, Truck, Search, Plus, X } from 'lucide-react';
+import toast from 'react-hot-toast';
 
 const Inventory = () => {
     const { products, fetchProducts } = useContext(AppContext);
@@ -16,13 +17,13 @@ const Inventory = () => {
         e.preventDefault();
         try {
             await axios.post('http://localhost:5000/api/products', pForm);
-            alert('Product added successfully!');
+            toast.success('Product added successfully!');
             setPForm({ product_code: '', name: '', category: '', price: '', image_url: '', stock_qty: '' });
             fetchProducts();
             setIsModalOpen(false);
         } catch (err) {
             console.error(err);
-            alert('Failed to add product');
+            toast.error('Failed to add product');
         }
     };
 
